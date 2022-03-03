@@ -87,7 +87,7 @@ void consult_student(Student *students, int studentsNum, int evalsNum) {
     int found = 0;
 
     for (int studentsCount = 0; studentsCount < studentsNum; studentsCount++) {
-        if (students[studentsCount].id == option
+        if (students[studentsCount].id == option) {
             found = 1;
             printf("\tID: %d\n\tNombre: %s\n\n", students[studentsCount].id, students[studentsCount].name);
             for (int evalsCount = 0; evalsCount < evalsNum; evalsCount++) {
@@ -135,6 +135,15 @@ void regist_evaluations(Evaluation *evaluations, int *evalsNum) {
     float total = 0;
     scanf("%d", evalsNum);
     getchar();
+
+    if (*evalsNum > MAX_EVAL) {
+        printf("Maximo de memoria es %d, intenta poniendo una cantidad igual o mayor que esta. (Presione enter para continuar)", MAX_EVAL);
+        getchar();
+
+        regist_evaluations(evaluations, evalsNum);
+
+        return;
+    }
 
     int count;
     for (count = 0; count < *evalsNum; count++) {
@@ -185,9 +194,19 @@ void regist_students(Student *students, const Evaluation *evaluations, int *stud
 
     float total = 0;
     scanf("%d", studentsNum);
+    getchar();
+
+    if (*studentsNum > MAX_STUDENTS) {
+        printf("Maximo de memoria es %d, intenta poniendo una cantidad igual o mayor que esta. (Presione enter para continuar)", MAX_STUDENTS);
+        getchar();
+
+        regist_students(students, evaluations, studentsNum, evalsNum);
+
+        return;
+    }
 
     int studentsCount, evalsCount;
-    getchar();
+
     for (studentsCount = 0; studentsCount < *studentsNum; studentsCount++) {
         printf("\nEstudiante No.%d", studentsCount + 1);
         Student student;
