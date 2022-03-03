@@ -75,25 +75,36 @@ void menu(int *option, Student *students, Evaluation *evaluations, int *students
 
 void consult_student(Student *students, int studentsNum, int evalsNum) {
     int option;
-    printf("Seleccione el estudiante que quiere consultar (No.):\n");
-    printf("\nNo.\t| ID\t| Nombre\n");
+    printf("Seleccione el estudiante que quiere consultar (ID):\n");
+    printf("\n ID\t| Nombre\n");
     for (int studentsCount = 0; studentsCount < studentsNum; studentsCount++) {
-        printf("\n%d\t| %d\t| %s\n", studentsCount + 1, students[studentsCount].id, students[studentsCount].name);
+        printf("\n\t%d\t| %s\n", students[studentsCount].id, students[studentsCount].name);
     }
 
     scanf("%d", &option);
     getchar();
     system("@cls||clear");
+    int found = 0;
 
-    printf("\tID: %d\n\tNombre: %s\n\n\t", students[option - 1].id, students[option - 1].name);
-
-    for (int evalsCount = 0; evalsCount < evalsNum; evalsCount++) {
-        printf("\tCalif. %s valor en calificacion final: %.2f%c\n", students[option - 1].evaluations[evalsCount].description, students[option - 1].evaluations[evalsCount].value, 37);
-        printf("\tCalif. %s calificacion en base a 100%c: %.2f%c\n", students[option - 1].evaluations[evalsCount].description, 37, students[option - 1].evaluations[evalsCount].pecentGrade, 37);
-        printf("\tCalif. %s calificacion en base a %.2f%c: %.2f%c\n\n", students[option - 1].evaluations[evalsCount].description, students[option - 1].evaluations[evalsCount].value, 37, (students[option - 1].evaluations[evalsCount].value / 100) * students[option - 1].evaluations[evalsCount].pecentGrade, 37);
+    for (int studentsCount = 0; studentsCount < studentsNum; studentsCount++) {
+        if (students[studentsCount].id == option
+            found = 1;
+            printf("\tID: %d\n\tNombre: %s\n\n", students[studentsCount].id, students[studentsCount].name);
+            for (int evalsCount = 0; evalsCount < evalsNum; evalsCount++) {
+                printf("\t\tCalif. %s valor en calificacion final: %.2f%c\n", students[studentsCount].evaluations[evalsCount].description, students[studentsCount].evaluations[evalsCount].value, 37);
+                printf("\tCalif. %s calificacion en base a 100%c: %.2f%c\n", students[studentsCount].evaluations[evalsCount].description, 37, students[studentsCount].evaluations[evalsCount].pecentGrade, 37);
+                printf("\tCalif. %s calificacion en base a %.2f%c: %.2f%c\n\n", students[studentsCount].evaluations[evalsCount].description, students[studentsCount].evaluations[evalsCount].value, 37, (students[option - 1].evaluations[evalsCount].value / 100) * students[option - 1].evaluations[evalsCount].pecentGrade, 37);
+            }
+            printf("\tCalif. final: %d (%c)", students[studentsCount].grade.percentGrade, students[option - 1].grade.letter);
+        }
     }
 
-    printf("\tCalif. final: %d (%c)", students[option - 1].grade.percentGrade, students[option - 1].grade.letter);
+    if (!found) {
+        printf("\nIntente con un ID existente (Presione enter para continuar)\n");
+        getchar();
+
+        consult_student(students, studentsNum, evalsNum);
+    }
 
     printf("\nPresione enter para continuar\n");
     getchar();
